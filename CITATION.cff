@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "iput-memerr: asymmetric uncertainty estimates for memory consumption measurements"
+type: software
+version: 0.0.1
+date-released: 2026-11-13
+license: MIT
+repository-code: "https://github.com/89605502155/iput-memerr"
+url: "https://pypi.org/project/iput-memerr/"
+authors:
+  - family-names: Kazakov
+    given-names: Oleg D.
+    affiliation: "Bryansk State University of Engineering and Technology"
+    email: kazakov@bgitu.ru
+    orcid: "https://orcid.org/0000-0001-9665-8138"
+  - family-names: Ferubko
+    given-names: Andrey O.
+    affiliation: "Bryansk State University of Engineering and Technology"
+    email: ferubko1999@yandex.ru
+    orcid: "https://orcid.org/0009-0006-5625-137X"
+keywords:
+  - uncertainty
+  - memory measurement
+  - virtual machine
+  - asymmetric error
