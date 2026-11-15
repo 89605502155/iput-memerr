@@ -18,7 +18,7 @@ The library takes a number or a vector of memory readings (bytes) and returns, f
 | `float` | floating-point representation (float16, float32, float64) | symmetric, relative |
 | `definition` | shared pages counted in the value but not owned by the VM | one-sided |
 
-Parameters choose the components to include (`components`) and the rule that combines them (`formula`): `linear` (sum of bounds), `rss` (root of sum of squares) and `gum` (root of sum of standard uncertainties, JCGM 100). Components can be switched on and off one by one to study their contribution.
+Parameters choose the components to include (`components`) and the rule that combines them (`formula`): `linear` (sum of bounds), `rss` (root of sum of squares) and `gum` (root of sum of standard uncertainties, JCGM 100), with `gum_shift` as the variant that moves the centre by the one-sided definition component. Components can be switched on and off one by one to study their contribution.
 
 ## Installation
 

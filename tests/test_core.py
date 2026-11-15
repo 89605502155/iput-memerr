@@ -130,3 +130,31 @@ def test_result_bounds_and_to_dict():
     d = res.to_dict()
     assert d["formula"] == "linear"
     assert d["value"] == [10.0]
+
+
+def test_gum_shift_centre_moves_by_half_definition_width():
+    # L - R = b при ненулевом правом пределе: сдвиг центра равен b/2 с обеих сторон
+    res = MemoryUncertainty(
+        components=("definition", "storage"), formula="gum_shift", shared_fraction=0.05
+    ).evaluate(1000.0)
+    assert float(res.left) - float(res.right) == pytest.approx(0.05 * 1000.0)
+
+
+def test_gum_shift_equals_gum_without_definition():
+    comps = ("instrument", "storage", "rounding", "float")
+    a = MemoryUncertainty(components=comps, formula="gum", instrument_rel=0.02).evaluate(np.array([5.0, 9.0]))
+    b = MemoryUncertainty(components=comps, formula="gum_shift", instrument_rel=0.02).evaluate(
+        np.array([5.0, 9.0])
+    )
+    assert np.allclose(a.left, b.left)
+    assert np.allclose(a.right, b.right)
+
+
+def test_gum_shift_right_bound_is_clipped_at_zero_when_shift_dominates():
+    # sigma = b/sqrt(12) < b/2, поэтому правая полуширина не может быть отрицательной
+    res = MemoryUncertainty(
+        components=("definition",), formula="gum_shift", shared_fraction=0.05, coverage=1.0
+    ).evaluate(1000.0)
+    b = 50.0
+    assert float(res.right) == 0.0
+    assert float(res.left) == pytest.approx(b / 2 + b / np.sqrt(12))

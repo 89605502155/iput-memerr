@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Formula `gum_shift`: gum with the mean shift b/2 and variance b^2/12 of the one-sided definition component. Existing formulas are unchanged. Three tests added (40 in total).
+
 ## 0.0.1 (2026-11-13)
 
 - First release. Seven uncertainty components (instrument, storage, time, sampling, rounding, float, definition).

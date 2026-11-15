@@ -8,6 +8,10 @@
 * ``rss``: корень из суммы квадратов полуширин;
 * ``gum``: корень из суммы квадратов стандартных неопределённостей по JCGM 100:2008. Полуширина
   равномерного распределения делится на sqrt(3), полуширина нормального на коэффициент ``normal_k``.
+* ``gum_shift``: как ``gum``, но одностороння компонента определения величины (равномерная на
+  отрезке [0; b]) учитывается со своим средним b/2 и дисперсией b**2/12. Центр интервала сдвигается
+  на b/2, левая полуширина равна b/2 + c*sigma, правая max(0; c*sigma - b/2). Для сумм без компоненты
+  определения величины совпадает с ``gum``.
 
 Все величины в байтах, моменты времени в секундах, доли безразмерные.
 """
@@ -30,7 +34,7 @@ COMPONENTS: tuple[str, ...] = (
     "float",
     "definition",
 )
-FORMULAS: tuple[str, ...] = ("linear", "rss", "gum")
+FORMULAS: tuple[str, ...] = ("linear", "rss", "gum", "gum_shift")
 DTYPE_UNIT_ROUNDOFF: dict[str, float] = {
     "float16": 2.0**-11,
     "float32": 2.0**-24,
@@ -249,10 +253,31 @@ class MemoryUncertainty:
             left = np.sqrt(sum((lo**2 for lo, _, _ in parts.values()), np.zeros(n)))
             right = np.sqrt(sum((ro**2 for _, ro, _ in parts.values()), np.zeros(n)))
             return left, right
-        # gum
         def divisor(dist: str) -> float:
             return _SQRT3 if dist == "rect" else self.normal_k
 
+        if self.formula == "gum_shift":
+            # одностороння компонента определения величины: равномерна на [0; b], b = L_7,
+            # среднее b/2 сдвигает центр, дисперсия b^2/12 входит в обе стороны (распределение ошибки)
+            var_l = sum(
+                ((lo / divisor(d)) ** 2 for name, (lo, _, d) in parts.items() if name != "definition"),
+                np.zeros(n),
+            )
+            var_r = sum(
+                ((ro / divisor(d)) ** 2 for name, (_, ro, d) in parts.items() if name != "definition"),
+                np.zeros(n),
+            )
+            shift = np.zeros(n)
+            if "definition" in parts:
+                b = parts["definition"][0]
+                shift = b / 2.0
+                var_l = var_l + b**2 / 12.0
+                var_r = var_r + b**2 / 12.0
+            left = shift + self.coverage * np.sqrt(var_l)
+            right = np.maximum(0.0, self.coverage * np.sqrt(var_r) - shift)
+            return left, right
+
+        # gum
         left = self.coverage * np.sqrt(
             sum(((lo / divisor(d)) ** 2 for lo, _, d in parts.values()), np.zeros(n))
         )

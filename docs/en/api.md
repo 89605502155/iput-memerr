@@ -5,7 +5,7 @@
 | Parameter | Default | Meaning |
 |---|---|---|
 | `components` | all seven | components to include, a subset of `COMPONENTS` |
-| `formula` | `"linear"` | `linear`, `rss` or `gum` |
+| `formula` | `"linear"` | `linear`, `rss`, `gum` or `gum_shift` (gum with the mean shift of the one-sided definition component) |
 | `instrument_rel` | `0.01` | relative accuracy of the measuring system (assumed, calibrate on a bench) |
 | `normal_k` | `2.0` | divisor for normal components in `gum` (2 means 95 % coverage) |
 | `page_size` | `4096.0` | bytes per memory page, granularity of the stored counter |
