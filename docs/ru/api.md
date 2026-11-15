@@ -1,4 +1,4 @@
-# Справочник API (iput-memerr 0.0.1)
+# Справочник API (iput-memerr 0.0.3)
 
 ## `MemoryUncertainty(components, formula, **параметры)`
 

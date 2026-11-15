@@ -7,4 +7,4 @@
 from iput_memerr.core import COMPONENTS, FORMULAS, MemoryUncertainty, UncertaintyResult
 
 __all__ = ["COMPONENTS", "FORMULAS", "MemoryUncertainty", "UncertaintyResult"]
-__version__ = "0.0.1"
+__version__ = "0.0.3"

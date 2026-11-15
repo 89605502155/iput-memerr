@@ -1,4 +1,4 @@
-# API reference (iput-memerr 0.0.1)
+# API reference (iput-memerr 0.0.3)
 
 ## `MemoryUncertainty(components, formula, **parameters)`
 

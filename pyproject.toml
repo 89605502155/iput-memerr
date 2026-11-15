@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "iput-memerr"
-version = "0.0.1"
+version = "0.0.3"
 description = "Asymmetric uncertainty estimates for memory consumption measurements of virtual machines"
 readme = "README.md"
 requires-python = ">=3.11"
